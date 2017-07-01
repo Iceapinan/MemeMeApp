@@ -70,12 +70,21 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigat
         return true
     }
     
-    let memes = Meme()
+    var memes = Meme()
     func save(image : UIImage) {
         // Create the meme
         let meme = Meme(topText: toptextfield.text!, bottomText: bottomtextfield.text!, originalImage: myimageview.image!, memedImage: memedImage)
         // Save Meme to "presistent storage" in AppDelegate :))
-        (UIApplication.shared.delegate as! AppDelegate).memes.append(meme)
+        // Add it to the memes array in the Application Delegate
+        let object = UIApplication.shared.delegate
+        let appDelegate = object as! AppDelegate
+        appDelegate.memes.append(meme)
+        let TabBarController = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! SentTableViewController
+        self.present(TabBarController, animated: true, completion: nil)
+        
+        // Test
+        print("SentTableViewController !!!")
+        
     }
     
     // Combining image and text
@@ -177,5 +186,9 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigat
         
     }
 
+    @IBAction func cancelPressed(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+        
+    }
 }
 
