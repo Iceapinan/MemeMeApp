@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F63E980D1F07CC710006BB06 /* SentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63E980C1F07CC710006BB06 /* SentTableViewController.swift */; };
+		F63E980F1F07CC850006BB06 /* SentCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63E980E1F07CC850006BB06 /* SentCollectionViewController.swift */; };
+		F66096191F08D3AA00FE46BC /* SentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66096181F08D3AA00FE46BC /* SentCollectionViewCell.swift */; };
 		F6C6DCDC1F023E4300C1E4CE /* Meme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6DCDB1F023E4300C1E4CE /* Meme.swift */; };
+		F6E2138F1F1DC3ED000A6174 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E2138E1F1DC3ED000A6174 /* DetailViewController.swift */; };
 		F6FE09491EFFCE3A008358A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FE09481EFFCE3A008358A2 /* AppDelegate.swift */; };
 		F6FE094B1EFFCE3A008358A2 /* MemeEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FE094A1EFFCE3A008358A2 /* MemeEditorViewController.swift */; };
 		F6FE094E1EFFCE3A008358A2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F6FE094C1EFFCE3A008358A2 /* Main.storyboard */; };
@@ -16,7 +20,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F63E980C1F07CC710006BB06 /* SentTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentTableViewController.swift; sourceTree = "<group>"; };
+		F63E980E1F07CC850006BB06 /* SentCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentCollectionViewController.swift; sourceTree = "<group>"; };
+		F66096181F08D3AA00FE46BC /* SentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentCollectionViewCell.swift; sourceTree = "<group>"; };
 		F6C6DCDB1F023E4300C1E4CE /* Meme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meme.swift; sourceTree = "<group>"; };
+		F6E2138E1F1DC3ED000A6174 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		F6FE09451EFFCE3A008358A2 /* MemeMeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MemeMeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6FE09481EFFCE3A008358A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F6FE094A1EFFCE3A008358A2 /* MemeEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemeEditorViewController.swift; sourceTree = "<group>"; };
@@ -56,8 +64,12 @@
 		F6FE09471EFFCE3A008358A2 /* MemeMeApp */ = {
 			isa = PBXGroup;
 			children = (
+				F66096181F08D3AA00FE46BC /* SentCollectionViewCell.swift */,
 				F6FE09481EFFCE3A008358A2 /* AppDelegate.swift */,
 				F6FE094A1EFFCE3A008358A2 /* MemeEditorViewController.swift */,
+				F63E980C1F07CC710006BB06 /* SentTableViewController.swift */,
+				F63E980E1F07CC850006BB06 /* SentCollectionViewController.swift */,
+				F6E2138E1F1DC3ED000A6174 /* DetailViewController.swift */,
 				F6C6DCDB1F023E4300C1E4CE /* Meme.swift */,
 				F6FE094C1EFFCE3A008358A2 /* Main.storyboard */,
 				F6FE094F1EFFCE3A008358A2 /* Assets.xcassets */,
@@ -139,9 +151,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F66096191F08D3AA00FE46BC /* SentCollectionViewCell.swift in Sources */,
 				F6C6DCDC1F023E4300C1E4CE /* Meme.swift in Sources */,
+				F63E980D1F07CC710006BB06 /* SentTableViewController.swift in Sources */,
+				F63E980F1F07CC850006BB06 /* SentCollectionViewController.swift in Sources */,
 				F6FE094B1EFFCE3A008358A2 /* MemeEditorViewController.swift in Sources */,
 				F6FE09491EFFCE3A008358A2 /* AppDelegate.swift in Sources */,
+				F6E2138F1F1DC3ED000A6174 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
