@@ -1,9 +1,9 @@
 //
 //  AppDelegate.swift
-//  MemeMeApp1.0
+//  MemeMeApp
 //
-//  Created by IceApinan on 6/25/2560 BE.
-//  Copyright © 2560 IceApinan. All rights reserved.
+//  Created by IceApinan on 6/25/2017 BE.
+//  Copyright © 2017 IceApinan. All rights reserved.
 //
 
 import UIKit

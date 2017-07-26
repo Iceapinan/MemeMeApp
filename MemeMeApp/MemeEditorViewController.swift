@@ -1,14 +1,14 @@
 //
 //  ViewController.swift
-//  MemeMeApp1.0
+//  MemeMeApp
 //
-//  Created by IceApinan on 6/25/2560 BE.
-//  Copyright © 2560 IceApinan. All rights reserved.
+//  Created by IceApinan on 6/25/2017 BE.
+//  Copyright © 2017 IceApinan. All rights reserved.
 //
 
 import UIKit
 
-class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate
+class MemeEditorViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate
 {
     @IBOutlet weak var myimageview: UIImageView!
     @IBOutlet weak var toptextfield: UITextField!
@@ -17,43 +17,30 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigat
     @IBOutlet weak var toolBarTop: UIToolbar!
     @IBOutlet weak var toolBarBottom: UIToolbar!
     
-
-    var memedImage = UIImage()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        toptextfield.delegate = self
-        bottomtextfield.delegate = self
-        
         // Setting font style and color
         
-        let memeTextAttributes:[String:Any] = [
-            NSAttributedStringKey.strokeColor.rawValue: UIColor.black,
-            NSAttributedStringKey.foregroundColor.rawValue: UIColor.white,
-            NSAttributedStringKey.font.rawValue: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-            NSAttributedStringKey.strokeWidth.rawValue: NSNumber(value:-3.0)] // Negative Values to fill the text
-        
-        
-        
+        let memeTextAttributes:[String:Any] = [NSStrokeColorAttributeName : UIColor.black, NSForegroundColorAttributeName: UIColor.white,NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!, NSStrokeWidthAttributeName: NSNumber(value:-3.0)]
         toptextfield.defaultTextAttributes = memeTextAttributes
         bottomtextfield.defaultTextAttributes = memeTextAttributes
         
+        configure(textField: toptextfield, withText: "TOP")
+        configure(textField: bottomtextfield, withText: "BOTTOM")
+        
+    }
+    
+    func configure (textField: UITextField, withText: String) {
+        textField.text = withText
         // Text should be center-aligned.
-        
-        toptextfield.text = "TOP"
-        bottomtextfield.text = "BOTTOM"
-        toptextfield.textAlignment = NSTextAlignment.center
-        bottomtextfield.textAlignment = NSTextAlignment.center
-        toptextfield.delegate = self
-        bottomtextfield.delegate = self
-        
+        textField.textAlignment = NSTextAlignment.center
+        textField.delegate = self
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+    
+    
     override func viewWillAppear(_ animated: Bool)
     {
         super.viewWillAppear(animated)
@@ -70,28 +57,16 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigat
         return true
     }
     
-    var memes = Meme()
-    func save(image : UIImage) {
-        // Create the meme
-        let meme = Meme(topText: toptextfield.text!, bottomText: bottomtextfield.text!, originalImage: myimageview.image!, memedImage: memedImage)
-        // Save Meme to "presistent storage" in AppDelegate :))
-        // Add it to the memes array in the Application Delegate
-        let object = UIApplication.shared.delegate
-        let appDelegate = object as! AppDelegate
-        appDelegate.memes.append(meme)
-        let TabBarController = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! SentTableViewController
-        self.present(TabBarController, animated: true, completion: nil)
-        
-        // Test
-        print("SentTableViewController !!!")
+    func setToolBarHidden (_ value : Bool) {
+        toolBarTop.isHidden = value
+        toolBarBottom.isHidden = value
         
     }
     
     // Combining image and text
     func generateMemedImage() -> UIImage {
         // TODO: Hide toolbar and navbar
-        self.toolBarTop.isHidden = true;
-        self.toolBarBottom.isHidden = true;
+        setToolBarHidden(true)
         
         // Render view to an image
         UIGraphicsBeginImageContext(self.view.frame.size)
@@ -99,9 +74,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigat
         let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         // TODO: Show toolbar and navbar
-        self.toolBarTop.isHidden = false;
-        self.toolBarBottom.isHidden = false;
-        
+        setToolBarHidden(false)
         
         return memedImage
     }
@@ -121,30 +94,35 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigat
         return keyboardSize.cgRectValue.height
     }
     @objc func keyboardWillShow(_ notification:Notification) {
-        
-        view.frame.origin.y -= getKeyboardHeight(notification)
+        if bottomtextfield.isFirstResponder == true
+        {
+            view.frame.origin.y = -getKeyboardHeight(notification)
+
+        }
     }
-   @objc func keyboardWillHide (_ notification: Notification) {
+    @objc func keyboardWillHide (_ notification: Notification) {
         view.frame.origin.y = 0
     }
     
-    @IBAction func CameraPressed(_ sender: Any)
-    {
+    func chooseSourceType(sourceType: UIImagePickerControllerSourceType) {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.allowsEditing = false
-        imagePicker.sourceType = .camera
+        imagePicker.sourceType = sourceType
         present(imagePicker, animated: true, completion: nil)
     }
     
-    @IBAction func AlbumPressed(_ sender: Any)
+    @IBAction func imageSourcePressed(_ sender: Any)
     {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = false
-        imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true, completion: nil)
+        let button = sender as! UIBarButtonItem
+        if button.tag == 0 {
+        chooseSourceType(sourceType: .camera)
+        } else {
+        chooseSourceType(sourceType: .photoLibrary)
+        }
     }
+
+    
     func imagePickerControllerDidCancel(_: UIImagePickerController)
     {
         dismiss(animated: true, completion: nil)
@@ -157,6 +135,7 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigat
             myimageview.image = image
             myimageview.contentMode = .scaleAspectFit
         }
+        picker.delegate = self
         dismiss(animated: true, completion: nil)
     }
     
@@ -185,10 +164,18 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigat
         present(controller, animated: true, completion: nil)
         
     }
-
+    
     @IBAction func cancelPressed(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
         
+    }
+    func save(image : UIImage) {
+        // Create the meme
+        let meme = Meme(topText: toptextfield.text!, bottomText: bottomtextfield.text!, originalImage: image, memedImage: generateMemedImage())
+        // Save it to AppDelegate
+        let object = UIApplication.shared.delegate
+        let appDelegate = object as! AppDelegate
+        appDelegate.memes.append(meme)
     }
 }
 
