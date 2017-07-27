@@ -10,48 +10,76 @@ import UIKit
 
 class SentTableViewController: UITableViewController,UINavigationControllerDelegate {
     var memes : [Meme]!
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(presentMemeEditor))
         
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         memes = appDelegate.memes
         tableView.reloadData()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        if memes.count == 0 {
-            presentMemeEditor()
+        memesCountIsZero {
+            self.presentMemeEditor()
         }
         
     }
+    
+    func memesCountIsZero(_ function: @escaping () -> Void) {
+        if memes.count == 0 {
+            function()
+        }
+    }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.memes.count
+        return memes.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SentTableCell")
-        let meme = self.memes[(indexPath as NSIndexPath).row]
+        let meme = memes[(indexPath as NSIndexPath).row]
         cell?.textLabel?.text = "\(meme.topText)...\(meme.bottomText)"
         cell?.imageView?.image = meme.memedImage
         return cell!
     }
-    func presentMemeEditor () {
-        let controller = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
-        self.present(controller, animated: true, completion: nil)
+     func presentMemeEditor () {
+        let controller = self.storyboard!.instantiateViewController(withIdentifier: "ViewController") as! MemeEditorViewController
+        self.present(controller, animated: true, completion: { () -> Void in
+            self.memesCountIsZero {
+                controller.cancelButton.isEnabled = false
+                controller.shareButton.isEnabled = false
+            }
+        })
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailController = self.storyboard!.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
-        let meme = self.memes[(indexPath as NSIndexPath).row]
+        let meme = memes[(indexPath as NSIndexPath).row]
         detailController.memes = meme
         self.navigationController!.pushViewController(detailController, animated: true)
     }
+    
+     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+            tableView.beginUpdates()
+            memes.remove(at: indexPath.row)
+            appDelegate.memes = memes
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.endUpdates()
+            memesCountIsZero {
+                self.presentMemeEditor()
+            }
+        }
+        
+        
+    }
+    
 }

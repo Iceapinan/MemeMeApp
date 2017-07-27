@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MemeEditorViewController.swift
 //  MemeMeApp
 //
 //  Created by IceApinan on 6/25/2017 BE.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MemeEditorViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate
+class MemeEditorViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate
 {
     @IBOutlet weak var myimageview: UIImageView!
     @IBOutlet weak var toptextfield: UITextField!
@@ -17,16 +17,14 @@ class MemeEditorViewController: UIViewController,UIImagePickerControllerDelegate
     @IBOutlet weak var toolBarTop: UIToolbar!
     @IBOutlet weak var toolBarBottom: UIToolbar!
     
+    @IBOutlet weak var cancelButton: UIBarButtonItem!
     
+    @IBOutlet weak var shareButton: UIBarButtonItem!
     override func viewDidLoad()
     {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         // Setting font style and color
-        
-        let memeTextAttributes:[String:Any] = [NSStrokeColorAttributeName : UIColor.black, NSForegroundColorAttributeName: UIColor.white,NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!, NSStrokeWidthAttributeName: NSNumber(value:-3.0)]
-        toptextfield.defaultTextAttributes = memeTextAttributes
-        bottomtextfield.defaultTextAttributes = memeTextAttributes
         
         configure(textField: toptextfield, withText: "TOP")
         configure(textField: bottomtextfield, withText: "BOTTOM")
@@ -34,7 +32,9 @@ class MemeEditorViewController: UIViewController,UIImagePickerControllerDelegate
     }
     
     func configure (textField: UITextField, withText: String) {
+        let memeTextAttributes:[String:Any] = [NSStrokeColorAttributeName : UIColor.black, NSForegroundColorAttributeName: UIColor.white,NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!, NSStrokeWidthAttributeName: NSNumber(value:-3.0)]
         textField.text = withText
+        textField.defaultTextAttributes = memeTextAttributes
         // Text should be center-aligned.
         textField.textAlignment = NSTextAlignment.center
         textField.delegate = self
@@ -134,21 +134,12 @@ class MemeEditorViewController: UIViewController,UIImagePickerControllerDelegate
         {
             myimageview.image = image
             myimageview.contentMode = .scaleAspectFit
+            shareButton.isEnabled = true
         }
         picker.delegate = self
         dismiss(animated: true, completion: nil)
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        // When a user taps inside a textfield, the default text should clear.
-        textField.text = ""
-    }
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // When a user presses return, the keyboard should be dismissed.
-        textField.resignFirstResponder()
-        return true
-        
-    }
     @IBAction func SharePressed (_ sender: Any) {
         let image = generateMemedImage()
         
@@ -177,5 +168,24 @@ class MemeEditorViewController: UIViewController,UIImagePickerControllerDelegate
         let appDelegate = object as! AppDelegate
         appDelegate.memes.append(meme)
     }
+}
+
+// MARK : UITextFieldDelegate
+
+extension MemeEditorViewController: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        // When a user taps inside a textfield, the default text should clear.
+        if textField.text == "TOP" || textField.text == "BOTTOM" {
+            textField.text = ""
+        }
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // When a user presses return, the keyboard should be dismissed.
+        textField.resignFirstResponder()
+        return true
+        
+    }
+    
 }
 

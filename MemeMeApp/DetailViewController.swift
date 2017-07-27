@@ -11,11 +11,7 @@ import UIKit
 class DetailViewController: UIViewController {
     var memes : Meme!
     @IBOutlet weak var imageView: UIImageView!
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
+    
     override func viewWillAppear(_ animated: Bool) {
         self.imageView!.image = memes.memedImage
         self.tabBarController?.tabBar.isHidden = true
@@ -24,10 +20,6 @@ class DetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         self.tabBarController?.tabBar.isHidden = false
-    }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
 

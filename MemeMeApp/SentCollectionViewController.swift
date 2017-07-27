@@ -10,17 +10,12 @@ import UIKit
 
 class SentCollectionViewController: UICollectionViewController {
     var memes : [Meme]!
-
+    @IBOutlet weak var flowLayout : UICollectionViewFlowLayout!
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+       
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(presentMemeEditor))
         
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -29,7 +24,15 @@ class SentCollectionViewController: UICollectionViewController {
         memes = appDelegate.memes
         collectionView?.reloadData()
     }
-    
+    func presentMemeEditor () {
+        let controller = self.storyboard!.instantiateViewController(withIdentifier: "ViewController") as! MemeEditorViewController
+        self.present(controller, animated: true, completion: { () -> Void in
+            if self.memes.count == 0 {
+                controller.cancelButton.isEnabled = false
+                controller.shareButton.isEnabled = false
+            }
+        })
+    }
     // MARK: Collection View Data Source
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
