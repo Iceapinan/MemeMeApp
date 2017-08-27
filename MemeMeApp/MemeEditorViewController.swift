@@ -69,8 +69,11 @@ class MemeEditorViewController: UIViewController,UIImagePickerControllerDelegate
         setToolBarHidden(true)
         
         // Render view to an image
-        UIGraphicsBeginImageContext(self.view.frame.size)
-        view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
+        UIGraphicsBeginImageContext(self.myimageview.frame.size)
+        var rectangle = self.view.frame
+        rectangle.origin.y = -(self.myimageview.frame.origin.y)
+        rectangle.origin.x = -(self.myimageview.frame.origin.x)
+        view.drawHierarchy(in: rectangle, afterScreenUpdates: true)
         let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         // TODO: Show toolbar and navbar
