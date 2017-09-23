@@ -24,7 +24,7 @@ class SentCollectionViewController: UICollectionViewController {
         memes = appDelegate.memes
         collectionView?.reloadData()
     }
-    func presentMemeEditor () {
+    @objc func presentMemeEditor () {
         let controller = self.storyboard!.instantiateViewController(withIdentifier: "ViewController") as! MemeEditorViewController
         self.present(controller, animated: true, completion: { () -> Void in
             if self.memes.count == 0 {

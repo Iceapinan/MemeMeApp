@@ -48,7 +48,7 @@ class SentTableViewController: UITableViewController,UINavigationControllerDeleg
         cell?.imageView?.image = meme.memedImage
         return cell!
     }
-     func presentMemeEditor () {
+     @objc func presentMemeEditor () {
         let controller = self.storyboard!.instantiateViewController(withIdentifier: "ViewController") as! MemeEditorViewController
         self.present(controller, animated: true, completion: { () -> Void in
             self.memesCountIsZero {

@@ -32,7 +32,7 @@ class MemeEditorViewController: UIViewController,UIImagePickerControllerDelegate
     }
     
     func configure (textField: UITextField, withText: String) {
-        let memeTextAttributes:[String:Any] = [NSStrokeColorAttributeName : UIColor.black, NSForegroundColorAttributeName: UIColor.white,NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!, NSStrokeWidthAttributeName: NSNumber(value:-3.0)]
+        let memeTextAttributes:[String:Any] = [NSAttributedStringKey.strokeColor.rawValue : UIColor.black, NSAttributedStringKey.foregroundColor.rawValue: UIColor.white,NSAttributedStringKey.font.rawValue: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!, NSAttributedStringKey.strokeWidth.rawValue: NSNumber(value:-3.0)]
         textField.text = withText
         textField.defaultTextAttributes = memeTextAttributes
         // Text should be center-aligned.
